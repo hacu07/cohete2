@@ -1,5 +1,5 @@
 //ancho = 9,45 m   / 31,00  pies    segun instructor dejarlo de 15
-
+/*
 El módulo de descenso
 
 caja octagonal con patas 
@@ -598,102 +598,102 @@ var ModuloAscenso = function(){
 
 
 // travezaños de escalera
-	travezañosEscalera1=new Base(0.2,0.2,7,4,"");
-	travezañosEscalera1.mesh.position.set(0,21.9,27.5);
-  	travezañosEscalera1.mesh.rotation.z =  3.1416/2;
-	this.mesh.add(travezañosEscalera1.mesh);
+	travezanosEscalera1=new Base(0.2,0.2,7,4,"");
+	travezanosEscalera1.mesh.position.set(0,21.9,27.5);
+  	travezanosEscalera1.mesh.rotation.z =  3.1416/2;
+	this.mesh.add(travezanosEscalera1.mesh);
 
-	travezañosEscalera2=new Base(0.2,0.2,7,4,"");
-	travezañosEscalera2.mesh.position.set(0,22.4,26.6);
-  	travezañosEscalera2.mesh.rotation.z =  3.1416/2;
-	this.mesh.add(travezañosEscalera2.mesh);
-
-
-	travezañosEscalera3=new Base(0.1,0.1,7,3,"");
-	travezañosEscalera3.mesh.position.set(0,23,25.9);
-  	travezañosEscalera3.mesh.rotation.z =  3.1416/2;
-	this.mesh.add(travezañosEscalera3.mesh);
+	travezanosEscalera2=new Base(0.2,0.2,7,4,"");
+	travezanosEscalera2.mesh.position.set(0,22.4,26.6);
+  	travezanosEscalera2.mesh.rotation.z =  3.1416/2;
+	this.mesh.add(travezanosEscalera2.mesh);
 
 
-	travezañosEscalera4=new Base(0.1,0.1,7,3,"");
-	travezañosEscalera4.mesh.position.set(0,23.8,24.7);
-  	travezañosEscalera4.mesh.rotation.z =  3.1416/2;
-	this.mesh.add(travezañosEscalera4.mesh);
+	travezanosEscalera3=new Base(0.1,0.1,7,3,"");
+	travezanosEscalera3.mesh.position.set(0,23,25.9);
+  	travezanosEscalera3.mesh.rotation.z =  3.1416/2;
+	this.mesh.add(travezanosEscalera3.mesh);
 
 
-	travezañosEscalera5=new Base(0.1,0.1,7,3,"");
-	travezañosEscalera5.mesh.position.set(0,24.7,23);
-  	travezañosEscalera5.mesh.rotation.z =  3.1416/2;
-	this.mesh.add(travezañosEscalera5.mesh);
-
-	travezañosEscalera6=new Base(0.1,0.1,7,3,"");
-	travezañosEscalera5.mesh.position.set(0,24.7,23);
-  	travezañosEscalera5.mesh.rotation.z =  3.1416/2;
-	this.mesh.add(travezañosEscalera5.mesh);
+	travezanosEscalera4=new Base(0.1,0.1,7,3,"");
+	travezanosEscalera4.mesh.position.set(0,23.8,24.7);
+  	travezanosEscalera4.mesh.rotation.z =  3.1416/2;
+	this.mesh.add(travezanosEscalera4.mesh);
 
 
-	travezañosEscalera7=new Base(0.1,0.1,7,3,"");
-	travezañosEscalera7.mesh.position.set(0,25.5,20.5);
-  	travezañosEscalera7.mesh.rotation.z =  3.1416/2;
-	this.mesh.add(travezañosEscalera7.mesh);
+	travezanosEscalera5=new Base(0.1,0.1,7,3,"");
+	travezanosEscalera5.mesh.position.set(0,24.7,23);
+  	travezanosEscalera5.mesh.rotation.z =  3.1416/2;
+	this.mesh.add(travezanosEscalera5.mesh);
 
-	travezañosEscalera8=new Base(0.1,0.1,7,3,"");
-	travezañosEscalera8.mesh.position.set(0,25.5,20);
-  	travezañosEscalera8.mesh.rotation.z =  3.1416/2;
-	this.mesh.add(travezañosEscalera8.mesh);
-
-	travezañosEscalera9=new Base(0.1,0.1,7,3,"");
-	travezañosEscalera9.mesh.position.set(0,25.5,19.5);
-  	travezañosEscalera9.mesh.rotation.z =  3.1416/2;
-	this.mesh.add(travezañosEscalera9.mesh);
+	travezanosEscalera6=new Base(0.1,0.1,7,3,"");
+	travezanosEscalera5.mesh.position.set(0,24.7,23);
+  	travezanosEscalera5.mesh.rotation.z =  3.1416/2;
+	this.mesh.add(travezanosEscalera5.mesh);
 
 
-	travezañosEscalera10=new Base(0.1,0.1,7,3,"");
-	travezañosEscalera10.mesh.position.set(0,25.5,19);
-  	travezañosEscalera10.mesh.rotation.z =  3.1416/2;
-	this.mesh.add(travezañosEscalera10.mesh);
+	travezanosEscalera7=new Base(0.1,0.1,7,3,"");
+	travezanosEscalera7.mesh.position.set(0,25.5,20.5);
+  	travezanosEscalera7.mesh.rotation.z =  3.1416/2;
+	this.mesh.add(travezanosEscalera7.mesh);
 
-	travezañosEscalera11=new Base(0.1,0.1,7,3,"");
-	travezañosEscalera11.mesh.position.set(0,25.5,18.5);
-  	travezañosEscalera11.mesh.rotation.z =  3.1416/2;
-	this.mesh.add(travezañosEscalera11.mesh);
+	travezanosEscalera8=new Base(0.1,0.1,7,3,"");
+	travezanosEscalera8.mesh.position.set(0,25.5,20);
+  	travezanosEscalera8.mesh.rotation.z =  3.1416/2;
+	this.mesh.add(travezanosEscalera8.mesh);
 
-	travezañosEscalera12=new Base(0.1,0.1,7,3,"");
-	travezañosEscalera12.mesh.position.set(0,25.5,18);
-  	travezañosEscalera12.mesh.rotation.z =  3.1416/2;
-	this.mesh.add(travezañosEscalera12.mesh);
-
-	travezañosEscalera12=new Base(0.1,0.1,7,3,"");
-	travezañosEscalera12.mesh.position.set(0,25.5,17.5);
-  	travezañosEscalera12.mesh.rotation.z =  3.1416/2;
-	this.mesh.add(travezañosEscalera12.mesh);
+	travezanosEscalera9=new Base(0.1,0.1,7,3,"");
+	travezanosEscalera9.mesh.position.set(0,25.5,19.5);
+  	travezanosEscalera9.mesh.rotation.z =  3.1416/2;
+	this.mesh.add(travezanosEscalera9.mesh);
 
 
-	travezañosEscalera13=new Base(0.1,0.1,7,3,"");
-	travezañosEscalera13.mesh.position.set(0,25.5,17);
-  	travezañosEscalera13.mesh.rotation.z =  3.1416/2;
-	this.mesh.add(travezañosEscalera13.mesh);
+	travezanosEscalera10=new Base(0.1,0.1,7,3,"");
+	travezanosEscalera10.mesh.position.set(0,25.5,19);
+  	travezanosEscalera10.mesh.rotation.z =  3.1416/2;
+	this.mesh.add(travezanosEscalera10.mesh);
 
-	travezañosEscalera14=new Base(0.1,0.1,7,3,"");
-	travezañosEscalera14.mesh.position.set(0,25.5,16.5);
-  	travezañosEscalera14.mesh.rotation.z =  3.1416/2;
-	this.mesh.add(travezañosEscalera14.mesh);
+	travezanosEscalera11=new Base(0.1,0.1,7,3,"");
+	travezanosEscalera11.mesh.position.set(0,25.5,18.5);
+  	travezanosEscalera11.mesh.rotation.z =  3.1416/2;
+	this.mesh.add(travezanosEscalera11.mesh);
 
-	travezañosEscalera15=new Base(0.1,0.1,7,3,"");
-	travezañosEscalera15.mesh.position.set(0,25.5,20);
-  	travezañosEscalera15.mesh.rotation.z =  3.1416/2;
-	this.mesh.add(travezañosEscalera15.mesh);
+	travezanosEscalera12=new Base(0.1,0.1,7,3,"");
+	travezanosEscalera12.mesh.position.set(0,25.5,18);
+  	travezanosEscalera12.mesh.rotation.z =  3.1416/2;
+	this.mesh.add(travezanosEscalera12.mesh);
+
+	travezanosEscalera12=new Base(0.1,0.1,7,3,"");
+	travezanosEscalera12.mesh.position.set(0,25.5,17.5);
+  	travezanosEscalera12.mesh.rotation.z =  3.1416/2;
+	this.mesh.add(travezanosEscalera12.mesh);
 
 
-	travezañosEscalera16=new Base(0.1,0.1,7,3,"");
-	travezañosEscalera16.mesh.position.set(0,25.5,18);
-  	travezañosEscalera16.mesh.rotation.z =  3.1416/2;
-	this.mesh.add(travezañosEscalera16.mesh);
+	travezanosEscalera13=new Base(0.1,0.1,7,3,"");
+	travezanosEscalera13.mesh.position.set(0,25.5,17);
+  	travezanosEscalera13.mesh.rotation.z =  3.1416/2;
+	this.mesh.add(travezanosEscalera13.mesh);
 
-	travezañosEscalera17=new Base(0.1,0.1,7,3,"");
-	travezañosEscalera17.mesh.position.set(0,25.5,17.5);
-  	travezañosEscalera17.mesh.rotation.z =  3.1416/2;
-	this.mesh.add(travezañosEscalera17.mesh);
+	travezanosEscalera14=new Base(0.1,0.1,7,3,"");
+	travezanosEscalera14.mesh.position.set(0,25.5,16.5);
+  	travezanosEscalera14.mesh.rotation.z =  3.1416/2;
+	this.mesh.add(travezanosEscalera14.mesh);
+
+	travezanosEscalera15=new Base(0.1,0.1,7,3,"");
+	travezanosEscalera15.mesh.position.set(0,25.5,20);
+  	travezanosEscalera15.mesh.rotation.z =  3.1416/2;
+	this.mesh.add(travezanosEscalera15.mesh);
+
+
+	travezanosEscalera16=new Base(0.1,0.1,7,3,"");
+	travezanosEscalera16.mesh.position.set(0,25.5,18);
+  	travezanosEscalera16.mesh.rotation.z =  3.1416/2;
+	this.mesh.add(travezanosEscalera16.mesh);
+
+	travezanosEscalera17=new Base(0.1,0.1,7,3,"");
+	travezanosEscalera17.mesh.position.set(0,25.5,17.5);
+  	travezanosEscalera17.mesh.rotation.z =  3.1416/2;
+	this.mesh.add(travezanosEscalera17.mesh);
 
 	// propulsor Superior de la cabina
 	propulsorSup = new Base(4,4,1,20,"");	
