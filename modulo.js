@@ -22,7 +22,7 @@ var Modulo = function(masaN, fuerzaE, vel, masaC, consumo, pos){
 	this.masaCombustible = masaC;
 	this.consumoCombustible = consumo;
 	this.posicionModulo = pos;			//vector3
-	this.mesh = new THREE.Object3D();
+	this.cuerpo = new THREE.Object3D();
 
 	//this.masa = masaN + masaC;
 
@@ -43,6 +43,8 @@ var Modulo = function(masaN, fuerzaE, vel, masaC, consumo, pos){
 	//Devuelve la distancia al cuadrado desde el centro a la posición 
 	this.calcularDistancia = function(){
 		var distancia2 = Math.pow(this.posicionModulo.length(),2);
+		//console.log("******************************");
+		//console.log(this.posicionModulo.length());
 		return distancia2;
 	}
 
@@ -67,6 +69,7 @@ var Modulo = function(masaN, fuerzaE, vel, masaC, consumo, pos){
 		var aceleracion = new THREE.Vector3();
 		var masa = this.calcularMasa();
 		aceleracion = this.calcularFuerza().divideScalar(masa);
+		console.log("aceleracion: x:" + aceleracion.x + " y:" + aceleracion.y + " z:" + aceleracion.z );
 		return aceleracion;
 	}
 
@@ -83,11 +86,16 @@ var Modulo = function(masaN, fuerzaE, vel, masaC, consumo, pos){
 	//calcula el desplazamiento, la nueva posición y la velocidad final.
 	//Este método es llamado desde el objeto. 
 	this.calcularPosicion = function() {
+		
 		var desplazamiento = new THREE.Vector3();
 		desplazamiento = this.calcularDesplazamiento();
 		this.posicionModulo.add(desplazamiento);
 		this.velocidad = desplazamiento.divideScalar(DELTAT);
-
+		//console.log("salio CalPos: " + this.posicionModulo.x  + " | " + this.posicionModulo.y + " | " + this.posicionModulo.z);
+		console.log("------------");
+		//console.log(this.posicionModulo);
+		console.log("VELOCIDAD: " + this.velocidad.y);
+		return this.posicionModulo.y;
 	}
 
 }

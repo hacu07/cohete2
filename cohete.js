@@ -13,8 +13,6 @@ window.document.addEventListener("keydown", detectarTecla, false);
 var escena, camara, renderer, ALTURA, ANCHO;
 var particleSystem =  null;
 var particulas = null;
-var particulas1 = null;
-var particulas2 = null;
 var cohete = null;
 var puntoVista = new THREE.Vector3( 0, 0, 0 );
 var valorTecla = 0;
@@ -27,10 +25,11 @@ var deltaRueda = 0;
  ******************************************************************/
 function iniciar() {
 	crearEscena();
+	crearCohete();
 	crearCamara();
 	crearLuces();
 	crearMundo();
-	crearCohete();
+	
 
 //	mensaje = document.getElementById('mensaje');	
 	ciclo();
@@ -44,9 +43,13 @@ function ciclo(){
 	leerTecla();
 	leerMouse();
 	calcularEstado();
+	
 	particulas.updateParticles();
-	particulas1.updateParticles();
-	particulas2.updateParticles();
+	cohete.cuerpo.mesh.position.y = cohete.calcularPosicion();
+	camara.lookAt(cohete.cuerpo.mesh.position);
+	//console.log(" ................... RETORNA  "+ cohete.calcularPosicion());
+	console.log(" *** Posicion Cohete: x: "+ cohete.cuerpo.mesh.position.x + " y: " + cohete.cuerpo.mesh.position.y + " z: "  + cohete.cuerpo.mesh.position.z);
+	/*particulas2.updateParticles();*/
 	renderer.render(escena, camara);
 	requestAnimationFrame(ciclo);
 }
@@ -87,13 +90,13 @@ function crearCamara(){
 	aspectRatio = ANCHO / ALTURA;
 	fieldOfView = 55;	//60
 	nearPlane = 0.1;
-	farPlane = 10000;
+	farPlane = 1000000;
 	camara = new THREE.PerspectiveCamera(fieldOfView, aspectRatio, nearPlane, farPlane);
-	camara.position.x = 20;
-	camara.position.z = 200; 
-	camara.position.y = 90; 
+	camara.position.x = 500;
+	camara.position.z = 1000; 
+	camara.position.y = 500; 
 //	camara.lookAt(escena.position);
-	camara.lookAt(puntoVista);
+	camara.lookAt(cohete.cuerpo.mesh.position);
 	escena.add(camara);
 }
 
@@ -209,13 +212,13 @@ function crearMundo(){
  construye todos los objetos en el mundo 
  ******************************************************************/
 function crearCohete(){
-	fuerzaE = new THREE.Vector3(0,1000,0);
-	vel = new THREE.Vector3(0,1000,0);
-	pos = new THREE.Vector3(0,0,0);	
-	cohete = new Modulo(1000,fuerzaE,vel,1000,500,pos);
-	cohete = new SaturnoV();
-	cohete.mesh.position.set(0,26,0);	
-	escena.add(cohete.mesh);
+	fuerzaE = new THREE.Vector3(0,3456441,0);
+	vel = new THREE.Vector3(0,0,0);
+	pos = new THREE.Vector3(0,24,0);	
+	cohete = new Modulo(3103369,fuerzaE,vel,6432754,73,pos);
+	cohete.cuerpo = new SaturnoV();
+	cohete.cuerpo.mesh.position.set(0,0,0);	
+	escena.add(cohete.cuerpo.mesh);
 
 	torre = new Plataforma();
 	torre.mesh.rotation.y = -3.1416/2;
@@ -223,21 +226,21 @@ function crearCohete(){
 	
 	moduloLunar = new ModuloLunar();
 	moduloLunar.mesh.position.set(0,295,0);
-	cohete.mesh.add(moduloLunar.mesh);
+	cohete.cuerpo.mesh.add(moduloLunar.mesh);
 
 	particulas = new Particles();
 	particulas.mesh.position.set(0,-500,0);
-	cohete.mesh.add(particulas.mesh);
-
+	cohete.cuerpo.mesh.add(particulas.mesh);
+/*
 	particulas1 = new Particles();
 	particulas1.updateParticles();
 	particulas1.mesh.position.set(-14,-500,0);
-	cohete.mesh.add(particulas1.mesh);
+	cohete.mesh.add(particulas1.mesh);*/
 
-	particulas2 = new Particles();
+	/*particulas2 = new Particles();
 	particulas2.updateParticles();
 	particulas2.mesh.position.set(14,-500,0);
-	cohete.mesh.add(particulas2.mesh);
+	cohete.mesh.add(particulas2.mesh);*/
 
 
 	
@@ -370,8 +373,9 @@ function leerMouse(){
 
 //---------------- PRUEBA -------------------------------
 function moverCohete(delta){
-	posY = cohete.mesh.position.y;
-	cohete.mesh.position.set(0, posY+delta, 0);
+	posY = cohete.cuerpo.position.y;
+	cohete.cuerpo.position.set(0, posY+delta, 0);
+	console.log("MoverCohete()" + posY+delta);
 }
 
 
@@ -383,17 +387,18 @@ function moverPuntoVista(delta){
 
 var power = 1;
 function activarParticulas(){
+	console.log("entra power = " + power);
 	if (power == 0) {
 		particulas.mesh.visible = true;
-		particulas1.mesh.visible = true;
-		particulas2.mesh.visible = true;
 		power = 1;
 	}
 	else{
 		particulas.mesh.visible = false;
-		particulas1.mesh.visible = false;
-		particulas2.mesh.visible = false;
+		var vector = new THREE.Vector3(0,0,0);
+		cohete.fuerzaEmpuje.set(0,0,0);
 		power = 0;
 
 	}
+	
+	console.log("sale power = " + power);
 }

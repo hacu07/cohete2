@@ -336,7 +336,7 @@ var Esfera = function(radio, color, textura){
  	this.mesh = new THREE.Object3D();
  	var texture = new THREE.TextureLoader().load( "img/particle.png" );
 
-	var particleCount = 5000,
+	var particleCount = 15000,
 	    particles = new THREE.Geometry(),
 
 // create the particle variables
@@ -353,9 +353,9 @@ var Esfera = function(radio, color, textura){
 
 	  // create a particle with random
 	  // position values, -250 -> 250
-	  var pX = Math.random() * .5 - .25,
+	  var pX = Math.random() *  30 - 15,
 	      pY =Math.random() * 1000 - 500,
-	      pZ = Math.random() * .5 - .25,
+	      pZ = Math.random() *  30 - 15,
 	      particle = new THREE.Vector3();
 
 	 particle.x = pX;
@@ -409,14 +409,14 @@ var Esfera = function(radio, color, textura){
 		    var dy = baseY + 500 - particle.y;
 
 		    var dist = new THREE.Vector3(particle.x, 0, particle.z);
-		    var d1 = dist.length()/60;
+		    var d1 = dist.length()/20;
 
 		    if ((dy > 1000) || (dy*d1  > 1000)) {
 		      particle.y = baseY + 500;
 		       particle.velocity.y = 0;
 
-		       particle.x = Math.random() * .5 - .25;
-		       particle.z = Math.random() * .5 - .25;
+		       particle.x = Math.random() * 30 - 15;
+		       particle.z = Math.random() * 30 - 15;
 		    }
 
 	/*	    if (Math.abs(particle.z) > 500) {
