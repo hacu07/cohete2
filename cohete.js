@@ -47,6 +47,9 @@ function ciclo(){
 	particulas.updateParticles();
 	cohete.cuerpo.mesh.position.y = cohete.calcularPosicion();
 	camara.lookAt(cohete.cuerpo.mesh.position);
+	if (cohete.cuerpo.mesh.position.y > 10000) {
+		camara.position.y = cohete.cuerpo.mesh.position.y;
+	}
 	//console.log(" ................... RETORNA  "+ cohete.calcularPosicion());
 	console.log(" *** Posicion Cohete: x: "+ cohete.cuerpo.mesh.position.x + " y: " + cohete.cuerpo.mesh.position.y + " z: "  + cohete.cuerpo.mesh.position.z);
 	/*particulas2.updateParticles();*/
