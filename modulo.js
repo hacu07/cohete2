@@ -21,7 +21,7 @@ var Modulo = function(masaN, fuerzaE, vel, masaC, consumo, pos){
 	this.velocidad = vel;				//vector3
 	this.masaCombustible = masaC;
 	this.consumoCombustible = consumo;
-	this.posicionModulo = pos;			//vector3
+	this.posicionModulo = pos ;			//vector3
 	this.cuerpo = new THREE.Object3D();
 
 	//this.masa = masaN + masaC;
@@ -42,7 +42,7 @@ var Modulo = function(masaN, fuerzaE, vel, masaC, consumo, pos){
 
 	//Devuelve la distancia al cuadrado desde el centro a la posición 
 	this.calcularDistancia = function(){
-		var distancia2 = Math.pow(this.posicionModulo.length(),2);
+		var distancia2 = Math.pow(this.posicionModulo.length() + RTIERRA,2);
 		//console.log("******************************");
 		//console.log(this.posicionModulo.length());
 		return distancia2;
@@ -53,9 +53,11 @@ var Modulo = function(masaN, fuerzaE, vel, masaC, consumo, pos){
 	//hay que sumar los vectores
 	this.calcularFuerza = function() {
 		var fuerza  =  new THREE.Vector3();
-		var vectorUnitario = new THREE.Vector3();
 
-		vectorUnitario.normalize(this.posicionModulo);
+		//var vectorUnitario = new THREE.Vector3();
+
+		 var vectorUnitario = this.posicionModulo.clone();
+		 vectorUnitario.normalize();
 		//calcula la Fuerza Gravedad
 
 		var Fg = -( MASATIERRA * this.masaNeta * KGRAVEDAD ) /(this.calcularDistancia());
@@ -68,17 +70,23 @@ var Modulo = function(masaN, fuerzaE, vel, masaC, consumo, pos){
 	this.calcularAceleracion = function(){
 		var aceleracion = new THREE.Vector3();
 		var masa = this.calcularMasa();
-		aceleracion = this.calcularFuerza().divideScalar(masa);
+		var calcularFuerza = this.calcularFuerza().clone();
+		aceleracion = calcularFuerza.divideScalar(masa);
+		/*aceleracion = this.calcularFuerza().divideScalar(masa);*/
 		console.log("aceleracion: x:" + aceleracion.x + " y:" + aceleracion.y + " z:" + aceleracion.z );
 		return aceleracion;
 	}
 
 	this.calcularDesplazamiento = function() {
-		var desplazamiento = new THREE.Vector3();
-		var desplazAcc = new THREE.Vector3();
+		/*var desplazamiento = new THREE.Vector3();
+		var desplazAcc = new THREE.Vector3();*/
+		var desplazamiento = this.velocidad.clone();
+		var desplazAcc = this.calcularAceleracion().clone();
 
-		desplazamiento = this.velocidad.multiplyScalar(DELTAT);
-		desplazAcc = this.calcularAceleracion().multiplyScalar(DELTAT*DELTAT/2);
+		desplazamiento = desplazamiento.multiplyScalar(DELTAT);
+		desplazAcc = desplazAcc.multiplyScalar(DELTAT*DELTAT/2);
+		/*desplazamiento = this.velocidad.multiplyScalar(DELTAT);
+		desplazAcc = this.calcularAceleracion().multiplyScalar(DELTAT*DELTAT/2);*/
 		desplazamiento.add(desplazAcc);
 		return desplazamiento;
 	}

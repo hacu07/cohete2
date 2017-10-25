@@ -45,11 +45,7 @@ function ciclo(){
 	calcularEstado();
 	
 	particulas.updateParticles();
-	cohete.cuerpo.mesh.position.y = cohete.calcularPosicion();
-	camara.lookAt(cohete.cuerpo.mesh.position);
-	if (cohete.cuerpo.mesh.position.y > 10000) {
-		camara.position.y = cohete.cuerpo.mesh.position.y;
-	}
+	
 	//console.log(" ................... RETORNA  "+ cohete.calcularPosicion());
 	console.log(" *** Posicion Cohete: x: "+ cohete.cuerpo.mesh.position.x + " y: " + cohete.cuerpo.mesh.position.y + " z: "  + cohete.cuerpo.mesh.position.z);
 	/*particulas2.updateParticles();*/
@@ -218,7 +214,7 @@ function crearCohete(){
 	fuerzaE = new THREE.Vector3(0,3456441,0);
 	vel = new THREE.Vector3(0,0,0);
 	pos = new THREE.Vector3(0,24,0);	
-	cohete = new Modulo(3103369,fuerzaE,vel,6432754,73,pos);
+	cohete = new Modulo(3103369,fuerzaE,vel,6432754,73,pos); 
 	cohete.cuerpo = new SaturnoV();
 	cohete.cuerpo.mesh.position.set(0,0,0);	
 	escena.add(cohete.cuerpo.mesh);
@@ -227,52 +223,28 @@ function crearCohete(){
 	torre.mesh.rotation.y = -3.1416/2;
 	escena.add(torre.mesh);
 	
-	moduloLunar = new ModuloLunar();
+	/*moduloLunar = new ModuloLunar();
 	moduloLunar.mesh.position.set(0,295,0);
 	cohete.cuerpo.mesh.add(moduloLunar.mesh);
-
+	*/
 	particulas = new Particles();
 	particulas.mesh.position.set(0,-500,0);
 	cohete.cuerpo.mesh.add(particulas.mesh);
-/*
-	particulas1 = new Particles();
-	particulas1.updateParticles();
-	particulas1.mesh.position.set(-14,-500,0);
-	cohete.mesh.add(particulas1.mesh);*/
 
-	/*particulas2 = new Particles();
-	particulas2.updateParticles();
-	particulas2.mesh.position.set(14,-500,0);
-	cohete.mesh.add(particulas2.mesh);*/
-
-
-	
-//	escena.add(moduloLunar.mesh);
 
 }
-/*function crearCohete(){
-	cohete = new SaturnoV();
-	cohete.mesh.position.set(0,26,0);	
-	escena.add(cohete.mesh);
 
-	torre = new Plataforma();
-	torre.mesh.rotation.y = -3.1416/2;
-	escena.add(torre.mesh);
-	
-	moduloLunar = new ModuloLunar();
-	moduloLunar.mesh.position.set(0,295,0);
-
-	cohete.mesh.add(moduloLunar.mesh);
-//	escena.add(moduloLunar.mesh);
-
-}
-*/
 
 /******************************************************************
   
  ******************************************************************/
 function calcularEstado(){
-
+	cohete.cuerpo.mesh.position.y = cohete.calcularPosicion();
+	camara.lookAt(cohete.cuerpo.mesh.position);
+	if (cohete.cuerpo.mesh.position.y >= 5000) {
+		camara.position.y += ((cohete.cuerpo.mesh.position.y - camara.position.y ) * 0.05 )+ cohete.velocidad.y;
+		console.log("Diferencia: " +  ( camara.position.y  - cohete.cuerpo.mesh.position.y));
+	}
 }
 
 
