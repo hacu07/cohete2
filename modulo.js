@@ -9,7 +9,7 @@
 
 var Modulo = function(masaN, fuerzaE, vel, masaC, consumo, pos){
 	//Constantes
-	const 	MASATIERRA = 5.972 * Math.pow(10, 24), 	//kg
+	const 	MASATIERRA = 5.972 * Math.pow(10, 22), 	//kg
 	  		KGRAVEDAD = 6.674 * Math.pow(10, -11), 	// (N . m^2)/ kg^2
 	  	//	GRAVEDADTIERRA = 315.41338582677 		// pies / s^2
 	  		RTIERRA = 6371000, 						// (metros) 20902230.97 pies 
@@ -60,10 +60,10 @@ var Modulo = function(masaN, fuerzaE, vel, masaC, consumo, pos){
 		 vectorUnitario.normalize();
 		//calcula la Fuerza Gravedad
 
-		var Fg = -( MASATIERRA * this.masaNeta * KGRAVEDAD ) /(this.calcularDistancia());
+		var Fg = -( MASATIERRA * this.calcularMasa() * KGRAVEDAD ) /(this.calcularDistancia());
 
 		//Falta pasar el Fg a vector 
-		fuerza = vectorUnitario.multiplyScalar(Fg);
+		fuerza = vectorUnitario.multiplyScalar(-Fg);
 		return (fuerza.add(this.fuerzaEmpuje));
 	}
 
@@ -73,7 +73,7 @@ var Modulo = function(masaN, fuerzaE, vel, masaC, consumo, pos){
 		var calcularFuerza = this.calcularFuerza().clone();
 		aceleracion = calcularFuerza.divideScalar(masa);
 		/*aceleracion = this.calcularFuerza().divideScalar(masa);*/
-		console.log("aceleracion: x:" + aceleracion.x + " y:" + aceleracion.y + " z:" + aceleracion.z );
+		//console.log("aceleracion: x:" + aceleracion.x + " y:" + aceleracion.y + " z:" + aceleracion.z );
 		return aceleracion;
 	}
 
@@ -100,9 +100,9 @@ var Modulo = function(masaN, fuerzaE, vel, masaC, consumo, pos){
 		this.posicionModulo.add(desplazamiento);
 		this.velocidad = desplazamiento.divideScalar(DELTAT);
 		//console.log("salio CalPos: " + this.posicionModulo.x  + " | " + this.posicionModulo.y + " | " + this.posicionModulo.z);
-		console.log("------------");
+		
 		//console.log(this.posicionModulo);
-		console.log("VELOCIDAD: " + this.velocidad.y);
+		//console.log("VELOCIDAD: " + this.velocidad.y);
 		return this.posicionModulo.y;
 	}
 

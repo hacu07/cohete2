@@ -47,7 +47,7 @@ function ciclo(){
 	particulas.updateParticles();
 	
 	//console.log(" ................... RETORNA  "+ cohete.calcularPosicion());
-	console.log(" *** Posicion Cohete: x: "+ cohete.cuerpo.mesh.position.x + " y: " + cohete.cuerpo.mesh.position.y + " z: "  + cohete.cuerpo.mesh.position.z);
+	//console.log(" *** Posicion Cohete: x: "+ cohete.cuerpo.mesh.position.x + " y: " + cohete.cuerpo.mesh.position.y + " z: "  + cohete.cuerpo.mesh.position.z);
 	/*particulas2.updateParticles();*/
 	renderer.render(escena, camara);
 	requestAnimationFrame(ciclo);
@@ -240,11 +240,10 @@ function crearCohete(){
  ******************************************************************/
 function calcularEstado(){
 	cohete.cuerpo.mesh.position.y = cohete.calcularPosicion();
-	camara.lookAt(cohete.cuerpo.mesh.position);
 	if (cohete.cuerpo.mesh.position.y >= 5000) {
-		camara.position.y += ((cohete.cuerpo.mesh.position.y - camara.position.y ) * 0.05 )+ cohete.velocidad.y;
-		console.log("Diferencia: " +  ( camara.position.y  - cohete.cuerpo.mesh.position.y));
+		camara.position.y += ((cohete.cuerpo.mesh.position.y - camara.position.y ) * 0.04 )+ cohete.velocidad.y;
 	}
+	camara.lookAt(cohete.cuerpo.mesh.position);
 }
 
 
@@ -350,7 +349,7 @@ function leerMouse(){
 function moverCohete(delta){
 	posY = cohete.cuerpo.position.y;
 	cohete.cuerpo.position.set(0, posY+delta, 0);
-	console.log("MoverCohete()" + posY+delta);
+	//console.log("MoverCohete()" + posY+delta);
 }
 
 
@@ -362,7 +361,7 @@ function moverPuntoVista(delta){
 
 var power = 1;
 function activarParticulas(){
-	console.log("entra power = " + power);
+	//console.log("entra power = " + power);
 	if (power == 0) {
 		particulas.mesh.visible = true;
 		power = 1;
@@ -375,5 +374,5 @@ function activarParticulas(){
 
 	}
 	
-	console.log("sale power = " + power);
+	//console.log("sale power = " + power);
 }
