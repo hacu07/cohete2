@@ -89,7 +89,7 @@ function crearCamara(){
 	aspectRatio = ANCHO / ALTURA;
 	fieldOfView = 55;	//60
 	nearPlane = 0.1;
-	farPlane = 1000000;
+	farPlane = 10000000000;
 	camara = new THREE.PerspectiveCamera(fieldOfView, aspectRatio, nearPlane, farPlane);
 	camara.position.x = 500;
 	camara.position.z = 1000; 
@@ -187,9 +187,10 @@ function crearLuces(){
  ******************************************************************/
 function crearMundo(){
 	var geometria = new THREE.PlaneGeometry(10000,10000);
-//	var map = THREE.ImageUtils.loadTexture("terreno.jpg");
-//	var material = new THREE.MeshLambertMaterial({color: 0x088A08, map: map, side:THREE.DoubleSide});
-	var material = new THREE.MeshLambertMaterial({color: 0x088A08});
+	var map = THREE.ImageUtils.loadTexture("img/terreno.jpg");
+	var material = new THREE.MeshLambertMaterial({color: 0x088A08, map: map, side:THREE.DoubleSide});
+//	var material = new THREE.MeshLambertMaterial({color: 0x088A08});
+
 	plano = new THREE.Mesh(geometria, material);
 	plano.receiveShadow = true;
 	plano.rotation.z = -.5 * Math.PI;
@@ -198,13 +199,32 @@ function crearMundo(){
 	var axisHelper = new THREE.AxisHelper(1000);
   	escena.add(axisHelper);
 	escena.add(plano);
-/*
-	var geometria1 = new THREE.SphereGeometry(500,50,50);
-	var map1 = THREE.ImageUtils.loadTexture("img/cielito.jpg");
+
+	var geometria1 = new THREE.SphereGeometry(10000,50,50);
+	var map1 = THREE.ImageUtils.loadTexture("img/tierra.jpg");
 	var material1 = new THREE.MeshBasicMaterial({map: map1, side: THREE.FrontSide});
 	esfera = new THREE.Mesh(geometria1, material1);	
 	escena.add(esfera);
-*/
+
+	var geometria3 = new THREE.SphereGeometry(9900,50,50);
+	var map3 = THREE.ImageUtils.loadTexture("img/cielito.jpg");
+	var material3 = new THREE.MeshBasicMaterial({map: map3, side: THREE.BackSide});
+	esfera3 = new THREE.Mesh(geometria3, material3);
+	esfera3.rotation.z = 3.1416/2.2;	
+	escena.add(esfera3);
+
+
+	var geometria2 = new THREE.SphereGeometry(90000,50,50);
+	var map2 = THREE.ImageUtils.loadTexture("img/universo.jpg");
+	var material2 = new THREE.MeshBasicMaterial({map: map2, side: THREE.BackSide});
+	esfera2 = new THREE.Mesh(geometria2, material2);	
+	escena.add(esfera2);
+
+
+	
+
+
+
 }
 
 /******************************************************************
@@ -214,7 +234,7 @@ function crearCohete(){
 	fuerzaE = new THREE.Vector3(0,3456441,0);
 	vel = new THREE.Vector3(0,0,0);
 	pos = new THREE.Vector3(0,24,0);	
-	cohete = new Modulo(3103369,fuerzaE,vel,6432754,73,pos); 
+	cohete = new Modulo(821336,fuerzaE,vel,2282033,500000,pos); 
 	cohete.cuerpo = new SaturnoV();
 	cohete.cuerpo.mesh.position.set(0,0,0);	
 	escena.add(cohete.cuerpo.mesh);
