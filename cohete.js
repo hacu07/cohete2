@@ -214,8 +214,8 @@ function crearMundo(){
 	escena.add(esfera3);
 
 
-	var geometria2 = new THREE.SphereGeometry(90000,50,50);
-	var map2 = THREE.ImageUtils.loadTexture("img/universo.jpg");
+	var geometria2 = new THREE.SphereGeometry(900000,50,50);
+	var map2 = THREE.ImageUtils.loadTexture("img/universo2.jpg");
 	var material2 = new THREE.MeshBasicMaterial({map: map2, side: THREE.BackSide});
 	esfera2 = new THREE.Mesh(geometria2, material2);	
 	escena.add(esfera2);
