@@ -216,6 +216,13 @@ function crearMundo(){
 	esfera3 = new THREE.Mesh(geometria3, material3);
 	esfera3.rotation.z = 3.1416/2.2;	
 	escena.add(esfera3);
+
+	this.mesh = new THREE.Object3D();
+	esferaCamara = new Cilindro(16.5, 16.5, 54, 20, 0xFFFFFF, "img/texturaFase2.png"); 	
+	this.mesh.add(esferaCamara.mesh);
+	//esfera4.rotation.z = 3.1416/2.2;	
+	escena.add(esferaCamara.mesh);
+
 }
 
 /******************************************************************
@@ -249,6 +256,7 @@ function crearCohete(){
 /******************************************************************
   
  ******************************************************************/
+ var rotar = 0.1;
 function calcularEstado(deltaEstado){
 	cohete.cuerpo.mesh.position.y = cohete.calcularPosicion();
 	/*if (deltaEstado == 67) {
@@ -277,6 +285,12 @@ function calcularEstado(deltaEstado){
 		camara.lookAt(cohete.cuerpo.mesh.position);
 	}*/
 
+	esferaCamara.mesh.position.set(500,cohete.calcularPosicion()+500,0);
+	esferaCamara.mesh.position.x = rotar;
+	rotar += 0.1;
+	console.log(rotar);
+
+	
 	if (deltaEstado == 1 || deltaEstado == 4 ) {
 		console.log("entra general 1");
 		if (cohete.cuerpo.mesh.position.y >= 5000) {
@@ -285,21 +299,25 @@ function calcularEstado(deltaEstado){
 			camara.position.z = 1000;
 			camara.position.y += ((cohete.cuerpo.mesh.position.y - camara.position.y ) * 0.04 )+ cohete.velocidad.y;
 			camara.lookAt(cohete.cuerpo.mesh.position);
-			deltaEstado = 2;
+			
+			//deltaEstado = 2;
 			console.log("sale = " + deltaEstado);
 		}
 
 		else
 		{ 
 			camara.lookAt(cohete.cuerpo.mesh.position);
-			deltaEstado = 2;
+			//deltaEstado = 2;
 		}
+		deltaEstado = 2;
 	}
 	else if(deltaEstado == 2) {
 		console.log("entra 2 = " +  deltaEstado);
-		camara.position.z = 0;
+		/*camara.position.z = 0;
 		camara.position.x = 500;
-		camara.position.y = cohete.calcularPosicion() + 700;
+		camara.position.y = cohete.calcularPosicion() + 500;*/
+		
+		camara.position.set(esferaCamara.mesh.position.x,esferaCamara.mesh.position.y,esferaCamara.mesh.position.z);
 		
 		camara.lookAt(cohete.cuerpo.mesh.position);
 		deltaEstado = 3;
