@@ -14,6 +14,7 @@ var escena, camara, renderer, ALTURA, ANCHO;
 var particleSystem =  null;
 var particulas = null;
 var cohete = null;
+var deltaEstado = 1;
 var puntoVista = new THREE.Vector3( 0, 0, 0 );
 var valorTecla = 0;
 var deltaRueda = 0;
@@ -42,7 +43,7 @@ function iniciar() {
 function ciclo(){
 	leerTecla();
 	leerMouse();
-	calcularEstado();
+	calcularEstado(deltaEstado);
 	
 	particulas.updateParticles();
 	
@@ -164,11 +165,11 @@ function crearLuces(){
 	shadowLight.shadow.camera.top = 800;
 	shadowLight.shadow.camera.bottom = -800;
 	shadowLight.shadow.camera.near = 1;
-	shadowLight.shadow.camera.far = 1000;
+	shadowLight.shadow.camera.far = 10000;
 
 	// define the resolution of the shadow; the higher the better, 
 	// but also the more expensive and less performant
-	shadowLight.shadow.mapSize.width = 1024; //2048
+	shadowLight.shadow.mapSize.width = 2048; //2048
 	
 	// to activate the lights, just add them to the scene
 	escena.add(hemisphereLight);  
@@ -195,7 +196,6 @@ function crearMundo(){
 	plano.receiveShadow = true;
 	plano.rotation.z = -.5 * Math.PI;
 	plano.rotation.x = -.5 * Math.PI;
-	plano.receiveShadow = true;
 	var axisHelper = new THREE.AxisHelper(1000);
   	escena.add(axisHelper);
 	escena.add(plano);
@@ -204,6 +204,10 @@ function crearMundo(){
 	var map1 = THREE.ImageUtils.loadTexture("img/tierra.jpg");
 	var material1 = new THREE.MeshBasicMaterial({map: map1, side: THREE.FrontSide});
 	esfera = new THREE.Mesh(geometria1, material1);	
+	esfera.rotation.x = -.35 * Math.PI;
+	esfera.rotation.z = .1 * Math.PI;
+	esfera.receiveShadow = true;
+
 	escena.add(esfera);
 
 	var geometria3 = new THREE.SphereGeometry(9900,50,50);
@@ -212,19 +216,6 @@ function crearMundo(){
 	esfera3 = new THREE.Mesh(geometria3, material3);
 	esfera3.rotation.z = 3.1416/2.2;	
 	escena.add(esfera3);
-
-
-	var geometria2 = new THREE.SphereGeometry(900000,50,50);
-	var map2 = THREE.ImageUtils.loadTexture("img/universo2.jpg");
-	var material2 = new THREE.MeshBasicMaterial({map: map2, side: THREE.BackSide});
-	esfera2 = new THREE.Mesh(geometria2, material2);	
-	escena.add(esfera2);
-
-
-	
-
-
-
 }
 
 /******************************************************************
@@ -258,12 +249,72 @@ function crearCohete(){
 /******************************************************************
   
  ******************************************************************/
-function calcularEstado(){
+function calcularEstado(deltaEstado){
 	cohete.cuerpo.mesh.position.y = cohete.calcularPosicion();
-	if (cohete.cuerpo.mesh.position.y >= 5000) {
-		camara.position.y += ((cohete.cuerpo.mesh.position.y - camara.position.y ) * 0.04 )+ cohete.velocidad.y;
+	/*if (deltaEstado == 67) {
+		if (cohete.cuerpo.mesh.position.y >= 5000) {
+			camara.position.x = 500;
+			camara.position.z = 1000;
+			camara.position.y += ((cohete.cuerpo.mesh.position.y - camara.position.y ) * 0.04 )+ cohete.velocidad.y;
+			camara.lookAt(cohete.cuerpo.mesh.position);
+		}
+		else
+		{
+			camara.lookAt(cohete.cuerpo.mesh.position);
+		}
 	}
-	camara.lookAt(cohete.cuerpo.mesh.position);
+	else if(deltaEstado == 90) {
+		camara.position.z = 100;
+		camara.position.x = 0;
+		camara.position.y = cohete.calcularPosicion() + 500;
+		
+		camara.lookAt(cohete.cuerpo.mesh.position);
+	}
+	else if(deltaEstado == 88) {
+		camara.position.z = 15000;
+		camara.position.x = 0;
+		camara.position.y = cohete.calcularPosicion() ;
+		camara.lookAt(cohete.cuerpo.mesh.position);
+	}*/
+
+	if (deltaEstado == 1 || deltaEstado == 4 ) {
+		console.log("entra general 1");
+		if (cohete.cuerpo.mesh.position.y >= 5000) {
+			console.log("entra 1 = " + deltaEstado);
+			camara.position.x = 500;
+			camara.position.z = 1000;
+			camara.position.y += ((cohete.cuerpo.mesh.position.y - camara.position.y ) * 0.04 )+ cohete.velocidad.y;
+			camara.lookAt(cohete.cuerpo.mesh.position);
+			deltaEstado = 2;
+			console.log("sale = " + deltaEstado);
+		}
+
+		else
+		{ 
+			camara.lookAt(cohete.cuerpo.mesh.position);
+			deltaEstado = 2;
+		}
+	}
+	else if(deltaEstado == 2) {
+		console.log("entra 2 = " +  deltaEstado);
+		camara.position.z = 0;
+		camara.position.x = 500;
+		camara.position.y = cohete.calcularPosicion() + 700;
+		
+		camara.lookAt(cohete.cuerpo.mesh.position);
+		deltaEstado = 3;
+		console.log("sale =" + deltaEstado);
+	}
+	else if(deltaEstado == 3) {
+		console.log("entra 3 = " + deltaEstado);
+		camara.position.z = 15000;
+		camara.position.x = 0;
+		camara.position.y = cohete.calcularPosicion() ;
+		camara.lookAt(cohete.cuerpo.mesh.position);
+		deltaEstado = 1;	
+		console.log("sale " + deltaEstado);	
+	}
+	
 }
 
 
@@ -317,11 +368,24 @@ function leerTecla(){
 		case 65: // a
 			moverCohete(+5);
 			break;
-
+		case 67:
+			//deltaEstado = 67;
+			break;
 		case 83: // s
 			moverCohete(-5);
 			break;
-
+		case 90:
+			/*deltaEstado = deltaEstado + 1 ;*/
+			if (deltaEstado == 4 ) {
+				deltaEstado = 1; 
+			}
+			else{
+				deltaEstado += 1;
+			}
+			break;
+		case 88:
+/*			deltaEstado = 88;
+*/			break;
 		case 81:
 		case 113: 		//Q + sube punto de vista camara
 			moverPuntoVista(5)
@@ -375,9 +439,16 @@ function moverCohete(delta){
 
 //Cambia punto de enfoque en Y de la camara
 function moverPuntoVista(delta){
-	puntoVista.y+= delta;
-	camara.lookAt(puntoVista);
+		puntoVista.y+= delta;
+		camara.lookAt(puntoVista);
+	
+
+	
+
+
 }
+
+
 
 var power = 1;
 function activarParticulas(){

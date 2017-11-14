@@ -332,7 +332,7 @@ var Esfera = function(radio, color, textura){
  ******************************************************************/
 
  var Particles = function(){
- 	console.log("entra");
+//	console.log("entra");
  	this.mesh = new THREE.Object3D();
  	var texture = new THREE.TextureLoader().load( "img/particle.png" );
 
@@ -353,10 +353,19 @@ var Esfera = function(radio, color, textura){
 
 	  // create a particle with random
 	  // position values, -250 -> 250
-	  var pX = Math.random() *  30 - 15,
-	      pY =Math.random() * 1000 - 500,
+	  /*var pX = Math.random() *  30 - 15,
+	      pY = Math.random() * 1000 - 500,
 	      pZ = Math.random() *  30 - 15,
-	      particle = new THREE.Vector3();
+	      particle = new THREE.Vector3();*/
+	 R = 15;
+	 //Radio
+	 r = Math.random() * R;
+	 alfa = Math.random() * 6.2831;
+
+	 var pX = r * Math.cos(alfa),
+	     pY = Math.random() * 1000 - 500,
+	     pZ = r * Math.sin(alfa),
+	     particle = new THREE.Vector3();
 
 	 particle.x = pX;
 	 particle.y = pY;
@@ -366,22 +375,23 @@ var Esfera = function(radio, color, textura){
 	 particles.vertices.push(particle);
 
 	  // create a velocity vector
+	  var vel = Math.random() * 4 - 2;
 		particle.velocity = new THREE.Vector3(
-  			Math.random() * 4 - 2,              // x
+  			vel * Math.cos(alfa) ,              // x
  			 0, // y: random vel
-  			Math.random()* 4 - 2);             // z
+  			vel * Math.sin(alfa)
+  			)             // z
 	}
 	particleSystem = new THREE.Points(
 	    particles,
 	    pMaterial);
 	this.mesh.add(particleSystem);
-	console.log("funciona");
 	var baseY = 0;
   	var cont = null;
 	this.updateParticles = function() {
 		  // add some rotation to the system
-		  particleSystem.rotation.y += 0.1;
-		  //particleSystem.rotation.z += 0.001;
+/*		  particleSystem.rotation.y += 0.1;
+*/		  //particleSystem.rotation.z += 0.001;
 		  //particleSystem.rotation.x += 0.001;
 		  /*if (cont < 5) {
 		  	particleSystem.rotation.z += 0.01;
@@ -412,11 +422,16 @@ var Esfera = function(radio, color, textura){
 		    var d1 = dist.length()/20;
 
 		    if ((dy > 1000) || (dy*d1  > 1000)) {
-		      particle.y = baseY + 500;
-		       particle.velocity.y = 0;
+		      	particle.y = baseY + 500;
+		       	particle.velocity.y = 0;
 
-		       particle.x = Math.random() * 30 - 15;
-		       particle.z = Math.random() * 30 - 15;
+		    	R = 15;
+	 			//Radio
+				r = Math.random() * R;
+				alfa = Math.random() * Math.PI * 2;
+
+		       	particle.x = r * Math.cos(alfa) ;
+		      	particle.z = r * Math.sin(alfa);
 		    }
 
 	/*	    if (Math.abs(particle.z) > 500) {
