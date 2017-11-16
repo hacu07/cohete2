@@ -103,7 +103,9 @@ var Modulo = function(masaN, fuerzaE, vel, masaC, consumo, pos){
 		
 		//console.log(this.posicionModulo);
 		//console.log("VELOCIDAD: " + this.velocidad.y);
-		return this.posicionModulo.y;
+		//console.log(this.posicionModulo);
+		//console.log(this.posicionModulo.ceil())
+		return this.posicionModulo.ceil();
 	}
 
 }

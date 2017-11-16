@@ -18,6 +18,8 @@ var deltaEstado = 1;
 var puntoVista = new THREE.Vector3( 0, 0, 0 );
 var valorTecla = 0;
 var deltaRueda = 0;
+var distanciaCamara = new THREE.Vector3(500,500,1000);
+var posicionCamara = new THREE.Vector3(500,500,1000);
 
 //var	mensaje;		//provisional para visualizar valores
 
@@ -92,9 +94,10 @@ function crearCamara(){
 	nearPlane = 0.1;
 	farPlane = 10000000000;
 	camara = new THREE.PerspectiveCamera(fieldOfView, aspectRatio, nearPlane, farPlane);
-	camara.position.x = 500;
+	/*camara.position.x = 500;
 	camara.position.z = 1000; 
-	camara.position.y = 500; 
+	camara.position.y = 500;*/ 
+	camara.position.copy(distanciaCamara);
 //	camara.lookAt(escena.position);
 	camara.lookAt(cohete.cuerpo.mesh.position);
 	escena.add(camara);
@@ -216,13 +219,6 @@ function crearMundo(){
 	esfera3 = new THREE.Mesh(geometria3, material3);
 	esfera3.rotation.z = 3.1416/2.2;	
 	escena.add(esfera3);
-
-	this.mesh = new THREE.Object3D();
-	esferaCamara = new Cilindro(16.5, 16.5, 54, 20, 0xFFFFFF, "img/texturaFase2.png"); 	
-	this.mesh.add(esferaCamara.mesh);
-	//esfera4.rotation.z = 3.1416/2.2;	
-	escena.add(esferaCamara.mesh);
-
 }
 
 /******************************************************************
@@ -256,79 +252,67 @@ function crearCohete(){
 /******************************************************************
   
  ******************************************************************/
- var rotar = 0.1;
 function calcularEstado(deltaEstado){
-	cohete.cuerpo.mesh.position.y = cohete.calcularPosicion();
-	/*if (deltaEstado == 67) {
-		if (cohete.cuerpo.mesh.position.y >= 5000) {
-			camara.position.x = 500;
-			camara.position.z = 1000;
-			camara.position.y += ((cohete.cuerpo.mesh.position.y - camara.position.y ) * 0.04 )+ cohete.velocidad.y;
-			camara.lookAt(cohete.cuerpo.mesh.position);
-		}
-		else
-		{
-			camara.lookAt(cohete.cuerpo.mesh.position);
-		}
-	}
-	else if(deltaEstado == 90) {
-		camara.position.z = 100;
-		camara.position.x = 0;
-		camara.position.y = cohete.calcularPosicion() + 500;
-		
-		camara.lookAt(cohete.cuerpo.mesh.position);
-	}
-	else if(deltaEstado == 88) {
-		camara.position.z = 15000;
-		camara.position.x = 0;
-		camara.position.y = cohete.calcularPosicion() ;
-		camara.lookAt(cohete.cuerpo.mesh.position);
-	}*/
-
-	esferaCamara.mesh.position.set(500,cohete.calcularPosicion()+500,0);
-	esferaCamara.mesh.position.x = rotar;
-	rotar += 0.1;
-	console.log(rotar);
-
-	
-	if (deltaEstado == 1 || deltaEstado == 4 ) {
+	posicionCohete = new THREE.Vector3(0,0,0);
+	posicionCohete.copy(cohete.calcularPosicion());
+	cohete.cuerpo.mesh.position.copy(posicionCohete.ceil());
+	posicionCamara.addVectors(posicionCohete,distanciaCamara);
+	console.log(posicionCamara);
+	if (deltaEstado == 1 || deltaEstado == 5 ) {
 		console.log("entra general 1");
-		if (cohete.cuerpo.mesh.position.y >= 5000) {
-			console.log("entra 1 = " + deltaEstado);
-			camara.position.x = 500;
+		if (posicionCohete.y >= 5000) {
+			console.log("entra 1 if= " + deltaEstado);
+			/*camara.position.x = 500;
 			camara.position.z = 1000;
-			camara.position.y += ((cohete.cuerpo.mesh.position.y - camara.position.y ) * 0.04 )+ cohete.velocidad.y;
-			camara.lookAt(cohete.cuerpo.mesh.position);
-			
-			//deltaEstado = 2;
+			camara.position.y += ((cohete.cuerpo.mesh.position.y - camara.position.y ) * 0.04 )+ cohete.velocidad.y;*/
+			//distanciaCamara.x = 500;
+			/*distanciaCamara.x = 500;
+			distanciaCamara.z = 1000;*/
+			//distanciaCamara.y += ((posicionCohete.y - distanciaCamara.y ) * 0.04 )+ cohete.velocidad.y;
+			distanciaCamara.x = 500;
+			distanciaCamara.y = 500;
+			distanciaCamara.z = 1000;
+			camara.position.copy(posicionCamara);
+			camara.lookAt(posicionCohete);
+			deltaEstado = 2;
 			console.log("sale = " + deltaEstado);
 		}
-
 		else
 		{ 
-			camara.lookAt(cohete.cuerpo.mesh.position);
-			//deltaEstado = 2;
+			console.log("entra 1 else= " + deltaEstado);
+			camara.lookAt(posicionCohete);
+			deltaEstado = 2;
 		}
-		deltaEstado = 2;
 	}
 	else if(deltaEstado == 2) {
 		console.log("entra 2 = " +  deltaEstado);
-		/*camara.position.z = 0;
-		camara.position.x = 500;
-		camara.position.y = cohete.calcularPosicion() + 500;*/
+		distanciaCamara.x = 500;
+		distanciaCamara.y = -1500; 
 		
-		camara.position.set(esferaCamara.mesh.position.x,esferaCamara.mesh.position.y,esferaCamara.mesh.position.z);
-		
-		camara.lookAt(cohete.cuerpo.mesh.position);
+		camara.position.copy(posicionCamara);
+		camara.lookAt(posicionCohete);
 		deltaEstado = 3;
 		console.log("sale =" + deltaEstado);
 	}
 	else if(deltaEstado == 3) {
 		console.log("entra 3 = " + deltaEstado);
-		camara.position.z = 15000;
-		camara.position.x = 0;
-		camara.position.y = cohete.calcularPosicion() ;
-		camara.lookAt(cohete.cuerpo.mesh.position);
+
+		distanciaCamara.x = 15000;
+		camara.position.copy(posicionCamara);
+		camara.lookAt(posicionCohete);
+		deltaEstado = 4;	
+		console.log("sale " + deltaEstado);	
+	}
+	else if(deltaEstado == 4) {
+		console.log("entra 4 = " + deltaEstado);
+
+		camara.position.x = posicionCohete.x;
+		camara.position.y = posicionCohete.y + 280;
+		camara.position.z = posicionCohete.z + 15;
+		var vistaCamara = new THREE.Vector3();
+		vistaCamara.y = posicionCohete.y + 500;
+
+		camara.lookAt(vistaCamara);
 		deltaEstado = 1;	
 		console.log("sale " + deltaEstado);	
 	}
@@ -394,7 +378,7 @@ function leerTecla(){
 			break;
 		case 90:
 			/*deltaEstado = deltaEstado + 1 ;*/
-			if (deltaEstado == 4 ) {
+			if (deltaEstado == 5 ) {
 				deltaEstado = 1; 
 			}
 			else{
