@@ -253,25 +253,32 @@ function crearCohete(){
   
  ******************************************************************/
 function calcularEstado(deltaEstado){
+	var distCamNorm=null;
+	var posCamNorm=null; 
 	posicionCohete = new THREE.Vector3(0,0,0);
 	posicionCohete.copy(cohete.calcularPosicion());
-	cohete.cuerpo.mesh.position.copy(posicionCohete.ceil());
+	cohete.cuerpo.mesh.position.copy(posicionCohete);
+	//posicionCamara.addVectors(posicionCohete,distanciaCamara);
 	posicionCamara.addVectors(posicionCohete,distanciaCamara);
 	console.log(posicionCamara);
 	if (deltaEstado == 1 || deltaEstado == 5 ) {
 		console.log("entra general 1");
 		if (posicionCohete.y >= 5000) {
 			console.log("entra 1 if= " + deltaEstado);
-			/*camara.position.x = 500;
-			camara.position.z = 1000;
-			camara.position.y += ((cohete.cuerpo.mesh.position.y - camara.position.y ) * 0.04 )+ cohete.velocidad.y;*/
-			//distanciaCamara.x = 500;
-			/*distanciaCamara.x = 500;
-			distanciaCamara.z = 1000;*/
-			//distanciaCamara.y += ((posicionCohete.y - distanciaCamara.y ) * 0.04 )+ cohete.velocidad.y;
-			distanciaCamara.x = 500;
-			distanciaCamara.y = 500;
-			distanciaCamara.z = 1000;
+			
+			//camara.position.y += ((cohete.cuerpo.mesh.position.y - camara.position.y ) * 0.04 )+ cohete.velocidad.y;
+			distanciaCamara.x = 0;
+			distanciaCamara.y =	0;
+			distanciaCamara.z = 800;
+
+			/*var quaternion = new THREE.Quaternion();
+
+			disCamNorm = distanciaCamara.normalize();
+			posCamNorm = posicionCamara.normalize();
+			quaternion.setFromUnitVectors(posCamNorm,disCamNorm);*/
+
+			
+
 			camara.position.copy(posicionCamara);
 			camara.lookAt(posicionCohete);
 			deltaEstado = 2;
@@ -297,7 +304,7 @@ function calcularEstado(deltaEstado){
 	else if(deltaEstado == 3) {
 		console.log("entra 3 = " + deltaEstado);
 
-		distanciaCamara.x = 15000;
+		distanciaCamara.x = 8000;
 		camara.position.copy(posicionCamara);
 		camara.lookAt(posicionCohete);
 		deltaEstado = 4;	
