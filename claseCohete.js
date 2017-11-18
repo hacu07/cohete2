@@ -463,6 +463,51 @@ var Esfera = function(radio, color, textura){
 	}
  }
 
+
+var Cabina = function(img, radio, lado,segW, segH){
+	 // material   
+	this.mesh = new THREE.Object3D();
+    var map = THREE.ImageUtils.loadTexture(img);
+
+    if (lado == 1) {
+    	var dish_material = new THREE.MeshLambertMaterial( {
+	        color: 0xFFFFFF, 
+	        side: THREE.BackSide,
+	        ambient: 0xFFFFFF,
+	        shading: THREE.FlatShading,
+	        transparent: true,
+	        map: map/*,
+	        wireframe :true*/
+    		} );
+    } else if(lado == 2) {
+    	var dish_material = new THREE.MeshLambertMaterial( {
+        color: 0xFFFFFF, 
+        side: THREE.DoubleSide,
+        ambient: 0xFFFFFF,
+        shading: THREE.FlatShading,
+        transparent: true/*,
+        map: map*/
+    	} );
+    }
+    else{
+    	var dish_material = new THREE.MeshLambertMaterial( {
+        color: 0xFFFFFF, 
+        side: THREE.FrontSide,
+        ambient: 0xFFFFFF,
+        shading: THREE.FlatShading,
+        transparent: true,
+        map: map
+        } );
+    } 
+    
+    
+    var dish_geometry = new THREE.SphereGeometry(radius=radio, widthSegments=segW, heightSegments=segH, 
+	phiStart=3, phiLength=3.2, 
+	thetaStart= 0, thetaLength=3.1);
+
+    dish = new THREE.Mesh( dish_geometry, dish_material );
+    this.mesh.add(dish);
+}
 /******************************************************************
  Animacion de las particulas 
  ******************************************************************/
