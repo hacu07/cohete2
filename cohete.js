@@ -312,7 +312,7 @@ function calcularEstado(deltaEstado){
 			posicionCabina.z = 795;
 			camara.position.copy(posicionCamara);
 			interiorCabina.mesh.position.copy(posicionCabina);
-			interiorCabina.mesh.rotation.x = -Math.PI/15;
+			interiorCabina.mesh.rotation.x = -Math.PI/10;
 			interiorCabina.mesh.rotation.y = Math.PI/30;
 			//exteriorCabina.mesh.position.copy(posicionCamara);
 			camara.lookAt(posicionCohete);
