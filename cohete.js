@@ -230,8 +230,8 @@ function crearMundo(){
 	escena.add(esfera3);
 
 	var geometria4 = new THREE.SphereGeometry(6000,50,50);
-	var map4 = THREE.ImageUtils.loadTexture("img/luna.png");
-	var material4 = new THREE.MeshBasicMaterial({map: map4, side: THREE.FrontSide});
+	var map4 = THREE.ImageUtils.loadTexture("img/luna.jpg");
+	var material4 = new THREE.MeshBasicMaterial({map: map4, side: THREE.DoubleSide});
 	esfera4 = new THREE.Mesh(geometria4, material4);
 	esfera4.rotation.x = Math.PI;
 	esfera4.position.y = 99000;
@@ -243,7 +243,7 @@ function crearMundo(){
  construye la cabina de visualizacion 
  ******************************************************************/
 function crearCabina(){
-	interiorCabina = new Cabina("img/cabina1.png", 20, 1, 4, 4);
+	interiorCabina = new Cabina("img/cabinaMod.png", 20, 1, 4, 4);
 	
 	interiorCabina.mesh.rotation.x = -Math.PI/3;
 	escena.add(interiorCabina.mesh);
@@ -283,6 +283,9 @@ function crearCohete(){
 /******************************************************************
   
  ******************************************************************/
+var quaternion = new THREE.Quaternion();
+var vCam = new THREE.Vector3(0,0,0);
+var vCab = new THREE.Vector3(0,0,0);
 function calcularEstado(deltaEstado){
 	var distCamNorm=null;
 	var posCamNorm=null; 
@@ -318,17 +321,24 @@ function calcularEstado(deltaEstado){
 		}
 		else
 		{
-
-			console.log("entra 1 else= " + deltaEstado);
 			posicionCabina.copy(distanciaCamara);
+			/*posicionCabina.z = 900;
+			vCam.copy(posicionCohete);
+			vCab.copy(distanciaCamara);
+			
+			vCam.normalize(vCam);
+			vCab.normalize(vCab);
+			console.log("entra 1 else= " + deltaEstado)*/;
+			
 			interiorCabina.mesh.position.copy(posicionCabina);
 			interiorCabina.mesh.rotation.y = Math.PI/30;
-			if (interiorCabina.mesh.rotation.x < 0.7) {
+			/*interiorCabina.mesh.rotation.x = quaternion.setFromUnitVectors( vCab , vCam );*/
+			/*if (interiorCabina.mesh.rotation.x < 0.7) {
 				interiorCabina.mesh.rotation.x +=  0.007;
 			}
 			else{
 				interiorCabina.mesh.rotation.x +=  0.002;
-			}
+			}*/
 			console.log(interiorCabina.mesh.rotation.x);
 			camara.lookAt(posicionCohete);
 			deltaEstado = 2;
