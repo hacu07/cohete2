@@ -283,6 +283,10 @@ function crearCohete(){
 /******************************************************************
   
  ******************************************************************/
+
+ //Angulo 
+var B;
+
 var quaternion = new THREE.Quaternion();
 var vCam = new THREE.Vector3(0,0,0);
 var vCab = new THREE.Vector3(0,0,0);
@@ -322,6 +326,10 @@ function calcularEstado(deltaEstado){
 		else
 		{
 			posicionCabina.copy(distanciaCamara);
+			B = ( Math.pow(posicionCohete.y,2) - Math.pow(posicionCabina.distanceTo(posicionCohete),2) - Math.pow(posicionCabina.z,2) )/( -2 * posicionCohete.y * posicionCabina.z  );
+			B = Math.acos(B);
+			console.log(B);
+			interiorCabina.mesh.rotation.x = B;
 			/*posicionCabina.z = 900;
 			vCam.copy(posicionCohete);
 			vCab.copy(distanciaCamara);
@@ -329,7 +337,7 @@ function calcularEstado(deltaEstado){
 			vCam.normalize(vCam);
 			vCab.normalize(vCab);
 			console.log("entra 1 else= " + deltaEstado)*/;
-			
+						
 			interiorCabina.mesh.position.copy(posicionCabina);
 			interiorCabina.mesh.rotation.y = Math.PI/30;
 			/*interiorCabina.mesh.rotation.x = quaternion.setFromUnitVectors( vCab , vCam );*/
