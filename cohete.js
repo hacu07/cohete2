@@ -20,7 +20,7 @@ var valorTecla = 0;
 var deltaRueda = 0;
 var distanciaCamara = new THREE.Vector3(0,500,1000);
 var posicionCamara = new THREE.Vector3(0,500,1000);
-var posicionCabina = new THREE.Vector3(0,500,1000);
+var posicionCabina = new THREE.Vector3(0,0,1000);
 
 //var	mensaje;		//provisional para visualizar valores
 
@@ -33,10 +33,7 @@ function iniciar() {
 	crearCabina();
 	crearCamara();
 	crearLuces();
-	crearMundo();
-	crearCabina();
-
-//	mensaje = document.getElementById('mensaje');	
+	crearMundo();	
 	ciclo();
 }
 
@@ -47,13 +44,8 @@ function iniciar() {
 function ciclo(){
 	leerTecla();
 	leerMouse();
-	calcularEstado(deltaEstado);
-	
+	calcularEstado(deltaEstado);	
 	particulas.updateParticles();
-	
-	//console.log(" ................... RETORNA  "+ cohete.calcularPosicion());
-	//console.log(" *** Posicion Cohete: x: "+ cohete.cuerpo.mesh.position.x + " y: " + cohete.cuerpo.mesh.position.y + " z: "  + cohete.cuerpo.mesh.position.z);
-	/*particulas2.updateParticles();*/
 	renderer.render(escena, camara);
 	requestAnimationFrame(ciclo);
 }
@@ -242,10 +234,11 @@ function crearMundo(){
 /******************************************************************
  construye la cabina de visualizacion 
  ******************************************************************/
+ var rotInicial;
 function crearCabina(){
-	interiorCabina = new Cabina("img/cabinaMod.png", 20, 1, 4, 4);
-	
-	interiorCabina.mesh.rotation.x = -Math.PI/3;
+	interiorCabina = new Cabina("img/cabinaMod.png", 20, 1, 32, 32);
+	rotInicial = -Math.PI/3;
+	interiorCabina.mesh.rotation.x = rotInicial;
 	escena.add(interiorCabina.mesh);
 
 	/*exteriorCabina = new Cabina("img/cabina2.png", 20, 3, 4, 4);
@@ -285,12 +278,15 @@ function crearCohete(){
  ******************************************************************/
 
  //Angulo 
-var B;
+var B,a,b,c;
 
 var quaternion = new THREE.Quaternion();
 var vCam = new THREE.Vector3(0,0,0);
 var vCab = new THREE.Vector3(0,0,0);
 function calcularEstado(deltaEstado){
+	//Asignar valores para calcular el angulo segunlaley de coseno
+	
+
 	var distCamNorm=null;
 	var posCamNorm=null; 
 	posicionCohete = new THREE.Vector3(0,0,0);
@@ -313,7 +309,7 @@ function calcularEstado(deltaEstado){
 
 			posicionCabina.copy(posicionCamara);
 
-			posicionCabina.z = 795;
+			posicionCabina.z = 800;
 			camara.position.copy(posicionCamara);
 			interiorCabina.mesh.position.copy(posicionCabina);
 			interiorCabina.mesh.rotation.x = -Math.PI/10;
@@ -326,28 +322,16 @@ function calcularEstado(deltaEstado){
 		else
 		{
 			posicionCabina.copy(distanciaCamara);
-			B = ( Math.pow(posicionCohete.y,2) - Math.pow(posicionCabina.distanceTo(posicionCohete),2) - Math.pow(posicionCabina.z,2) )/( -2 * posicionCohete.y * posicionCabina.z  );
+			a = posicionCabina.distanceTo(posicionCohete);
+			b = posicionCohete.y;
+			c = posicionCabina.z;
+			B = ( Math.pow(b,2) - Math.pow(a,2) - Math.pow(c,2)) /( -2 * a * c  );
+			console.log("valor B : "+ B);
 			B = Math.acos(B);
 			console.log(B);
-			interiorCabina.mesh.rotation.x = B;
-			/*posicionCabina.z = 900;
-			vCam.copy(posicionCohete);
-			vCab.copy(distanciaCamara);
-			
-			vCam.normalize(vCam);
-			vCab.normalize(vCab);
-			console.log("entra 1 else= " + deltaEstado)*/;
-						
+			interiorCabina.mesh.rotation.x = rotInicial + B;
 			interiorCabina.mesh.position.copy(posicionCabina);
 			interiorCabina.mesh.rotation.y = Math.PI/30;
-			/*interiorCabina.mesh.rotation.x = quaternion.setFromUnitVectors( vCab , vCam );*/
-			/*if (interiorCabina.mesh.rotation.x < 0.7) {
-				interiorCabina.mesh.rotation.x +=  0.007;
-			}
-			else{
-				interiorCabina.mesh.rotation.x +=  0.002;
-			}*/
-			console.log(interiorCabina.mesh.rotation.x);
 			camara.lookAt(posicionCohete);
 			deltaEstado = 2;
 		}
@@ -360,7 +344,7 @@ function calcularEstado(deltaEstado){
 		camara.position.copy(posicionCamara);
 		interiorCabina.mesh.position.copy(posicionCamara);
 		interiorCabina.mesh.rotation.y = Math.PI/30;
-		interiorCabina.mesh.rotation.x = -Math.PI/2;
+		interiorCabina.mesh.rotation.x = -Math.PI/1.9;
 		interiorCabina.mesh.rotation.z = Math.PI/32;
 		//exteriorCabina.mesh.position.copy(posicionCamara);
 		camara.lookAt(posicionCohete);
@@ -375,7 +359,7 @@ function calcularEstado(deltaEstado){
 		interiorCabina.mesh.position.copy(posicionCamara);
 		interiorCabina.mesh.position.z = 7998;
 		interiorCabina.mesh.rotation.y = Math.PI/30;
-		interiorCabina.mesh.rotation.x = -Math.PI/5;
+		interiorCabina.mesh.rotation.x = -Math.PI/4;
 		interiorCabina.mesh.rotation.z = 0;
 		//exteriorCabina.mesh.position.copy(posicionCamara);
 		camara.lookAt(posicionCohete);
@@ -396,7 +380,7 @@ function calcularEstado(deltaEstado){
 		interiorCabina.mesh.position.x = camara.position.x;
 		interiorCabina.mesh.position.y = camara.position.y ;
 		interiorCabina.mesh.position.z = camara.position.z;
-		interiorCabina.mesh.rotation.x = Math.PI/2.5;
+		interiorCabina.mesh.rotation.x = Math.PI/3;
 		deltaEstado = 1;	
 		console.log("sale " + deltaEstado);	
 	}
