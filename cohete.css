@@ -19,3 +19,10 @@
 
 
 canvas { height: 100%; width: 100%; }
+
+audio{
+	z-index: 1;
+	position: absolute;
+	left: 40%;
+	top: 5%;	
+}
