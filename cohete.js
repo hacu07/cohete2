@@ -20,7 +20,7 @@ var valorTecla = 0;
 var deltaRueda = 0;
 var distanciaCamara = new THREE.Vector3(0,500,1000);
 var posicionCamara = new THREE.Vector3(0,500,1000);
-var posicionCabina = new THREE.Vector3(0,0,1000);
+var posicionCabina = new THREE.Vector3(0,500,1000);
 
 //var	mensaje;		//provisional para visualizar valores
 
@@ -186,7 +186,7 @@ function crearLuces(){
  ******************************************************************/
 function crearMundo(){
 	var geometria = new THREE.PlaneGeometry(10000,10000);
-	var map = THREE.ImageUtils.loadTexture("img/terreno.jpg");
+	var map = new THREE.TextureLoader().load("img/terreno.jpg");
 	var material = new THREE.MeshLambertMaterial({color: 0x088A08, map: map, side:THREE.DoubleSide});
 //	var material = new THREE.MeshLambertMaterial({color: 0x088A08});
 
@@ -199,7 +199,7 @@ function crearMundo(){
 	escena.add(plano);
 
 	var geometria1 = new THREE.SphereGeometry(10100,50,50);
-	var map1 = THREE.ImageUtils.loadTexture("img/tierra.jpg");
+	var map1 = new THREE.TextureLoader().load("img/tierra.jpg");
 	var material1 = new THREE.MeshBasicMaterial({map: map1, side: THREE.FrontSide});
 	esfera = new THREE.Mesh(geometria1, material1);	
 	esfera.rotation.x = -.35 * Math.PI;
@@ -208,21 +208,21 @@ function crearMundo(){
 	escena.add(esfera);
 
 	var geometria2 = new THREE.SphereGeometry(200000,50,50);
-	var map2 = THREE.ImageUtils.loadTexture("img/universo.jpg");
+	var map2 = new THREE.TextureLoader().load("img/universo.jpg");
 	var material2 = new THREE.MeshBasicMaterial({map: map2, side: THREE.BackSide});
 	esfera2 = new THREE.Mesh(geometria2, material2);
 	esfera2.rotation.z = 3.1416/2.2;	
 	escena.add(esfera2);
 
 	var geometria3 = new THREE.SphereGeometry(9900,50,50);
-	var map3 = THREE.ImageUtils.loadTexture("img/cielito.jpg");
+	var map3 = new THREE.TextureLoader().load("img/cielito.jpg");
 	var material3 = new THREE.MeshBasicMaterial({map: map3, side: THREE.BackSide});
 	esfera3 = new THREE.Mesh(geometria3, material3);
 	esfera3.rotation.z = 3.1416/2.2;	
 	escena.add(esfera3);
 
 	var geometria4 = new THREE.SphereGeometry(6000,50,50);
-	var map4 = THREE.ImageUtils.loadTexture("img/luna.jpg");
+	var map4 = new THREE.TextureLoader().load("img/luna.jpg");
 	var material4 = new THREE.MeshBasicMaterial({map: map4, side: THREE.DoubleSide});
 	esfera4 = new THREE.Mesh(geometria4, material4);
 	esfera4.rotation.x = Math.PI;
@@ -296,11 +296,11 @@ function calcularEstado(deltaEstado){
 	posicionCamara.addVectors(posicionCohete,distanciaCamara);
 	//posicionCabina.copy(posicionCamara);
 	
-	console.log(posicionCamara);
+	//console.log(posicionCamara);
 	if (deltaEstado == 1 || deltaEstado == 5 ) {
-		console.log("entra general 1");
+		//console.log("entra general 1");
 		if (posicionCohete.y >= 5000) {
-			console.log("entra 1 if= " + deltaEstado);
+			//console.log("entra 1 if= " + deltaEstado);
 			
 			//camara.position.y += ((cohete.cuerpo.mesh.position.y - camara.position.y ) * 0.04 )+ cohete.velocidad.y;
 			distanciaCamara.x = 0;
@@ -317,18 +317,18 @@ function calcularEstado(deltaEstado){
 			//exteriorCabina.mesh.position.copy(posicionCamara);
 			camara.lookAt(posicionCohete);
 			deltaEstado = 2;
-			console.log("sale = " + deltaEstado);
+			//console.log("sale = " + deltaEstado);
 		}
 		else
 		{
 			posicionCabina.copy(distanciaCamara);
 			a = posicionCabina.distanceTo(posicionCohete);
-			b = posicionCohete.y;
-			c = posicionCabina.z;
+			b = posicionCohete.distanceTo(new THREE.Vector3(0,0,0));
+			c = posicionCabina.distanceTo(new THREE.Vector3(0,0,0));
 			B = ( Math.pow(b,2) - Math.pow(a,2) - Math.pow(c,2)) /( -2 * a * c  );
-			console.log("valor B : "+ B);
+			//console.log("valor B : "+ B);
 			B = Math.acos(B);
-			console.log(B);
+			//console.log(B);
 			interiorCabina.mesh.rotation.x = rotInicial + B;
 			interiorCabina.mesh.position.copy(posicionCabina);
 			interiorCabina.mesh.rotation.y = Math.PI/30;
@@ -337,7 +337,7 @@ function calcularEstado(deltaEstado){
 		}
 	}
 	else if(deltaEstado == 2) {
-		console.log("entra 2 = " +  deltaEstado);
+		//console.log("entra 2 = " +  deltaEstado);
 		distanciaCamara.x = 100;
 		distanciaCamara.y = 2500; 
 		
@@ -345,14 +345,14 @@ function calcularEstado(deltaEstado){
 		interiorCabina.mesh.position.copy(posicionCamara);
 		interiorCabina.mesh.rotation.y = Math.PI/30;
 		interiorCabina.mesh.rotation.x = -Math.PI/1.9;
-		interiorCabina.mesh.rotation.z = Math.PI/32;
+		interiorCabina.mesh.rotation.z = Math.PI/30;
 		//exteriorCabina.mesh.position.copy(posicionCamara);
 		camara.lookAt(posicionCohete);
 		deltaEstado = 3;
-		console.log("sale =" + deltaEstado);
+		//console.log("sale =" + deltaEstado);
 	}
 	else if(deltaEstado == 3) {
-		console.log("entra 3 = " + deltaEstado);
+		//console.log("entra 3 = " + deltaEstado);
 
 		distanciaCamara.z = 8000;
 		camara.position.copy(posicionCamara);
@@ -364,10 +364,10 @@ function calcularEstado(deltaEstado){
 		//exteriorCabina.mesh.position.copy(posicionCamara);
 		camara.lookAt(posicionCohete);
 		deltaEstado = 4;	
-		console.log("sale " + deltaEstado);	
+		//console.log("sale " + deltaEstado);	
 	}
 	else if(deltaEstado == 4) {
-		console.log("entra 4 = " + deltaEstado);
+		//console.log("entra 4 = " + deltaEstado);
 
 		camara.position.x = posicionCohete.x;
 		camara.position.y = posicionCohete.y + 320;
@@ -382,7 +382,7 @@ function calcularEstado(deltaEstado){
 		interiorCabina.mesh.position.z = camara.position.z;
 		interiorCabina.mesh.rotation.x = Math.PI/3;
 		deltaEstado = 1;	
-		console.log("sale " + deltaEstado);	
+		//console.log("sale " + deltaEstado);	
 	}
 	
 }

@@ -107,7 +107,7 @@ var Cuadrado = function(ancho,alto,largo,vertices,textura){
 	var geometria = new THREE.BoxGeometry(ancho, alto, largo, vertices,1,1);
 	this.geometria = geometria;
 	if (textura != ""){
-		var map = THREE.ImageUtils.loadTexture(textura);
+		var map = new THREE.TextureLoader().load(textura);
 		var material = new THREE.MeshLambertMaterial({map: map});
 	}
 	else 
@@ -125,7 +125,7 @@ var Cilindro = function(radioSup,radioInf,alto,caras,textura){
 	var geometria = new THREE.CylinderGeometry(radioSup, radioInf, alto, caras);
 	this.geometria = geometria;
 	if (textura != ""){
-		var map = THREE.ImageUtils.loadTexture(textura);
+		var map = new THREE.TextureLoader().load(textura);
 		var material = new THREE.MeshLambertMaterial({map: map});
 	}
 	else 

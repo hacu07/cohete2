@@ -276,7 +276,7 @@ var Cilindro = function(radSup, radInf, h, caras, color, textura) {
 	var geometria = new THREE.CylinderGeometry(radSup, radInf, h, caras);
 	this.geometria = geometria;
 	if (textura != ""){
-		var map = THREE.ImageUtils.loadTexture(textura);
+		var map = new THREE.TextureLoader().load(textura);
 		var material = new THREE.MeshLambertMaterial({color: color, map: map});
 	}
 	else
@@ -294,7 +294,7 @@ var Cilindro = function(radioSup,radioInf,alto,caras,textura){
 	var geometria = new THREE.CylinderGeometry(radioSup, radioInf, alto, caras);
 	this.geometria = geometria;
 	if (textura != ""){
-		var map = THREE.ImageUtils.loadTexture(textura);
+		var map = new THREE.TextureLoader().load(textura);
 		var material = new THREE.MeshLambertMaterial({map: map});
 	}
 	else 
@@ -467,7 +467,7 @@ var Esfera = function(radio, color, textura){
 var Cabina = function(img, radio, lado,segW, segH){
 	 // material   
 	this.mesh = new THREE.Object3D();
-    var map = THREE.ImageUtils.loadTexture(img);
+    var map = new THREE.TextureLoader().load(img);
 
     if (lado == 1) {
     	var dish_material = new THREE.MeshLambertMaterial( {
