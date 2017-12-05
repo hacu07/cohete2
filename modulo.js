@@ -16,6 +16,7 @@ var Modulo = function(masaN, fuerzaE, vel, masaC, consumo, pos){
 	  		DELTAT = 1; 							//tiempo en segundos entre cada ciclo de simulación.
 
 	//Atributos
+	this.rTierra = RTIERRA;
 	this.masaNeta = masaN;
 	this.fuerzaEmpuje = fuerzaE;		//vector3
 	this.velocidad = vel;				//vector3
@@ -23,6 +24,8 @@ var Modulo = function(masaN, fuerzaE, vel, masaC, consumo, pos){
 	this.consumoCombustible = consumo;
 	this.posicionModulo = pos ;			//vector3
 	this.cuerpo = new THREE.Object3D();
+	var Fg;
+	this.magnitudFe = fuerzaE.length(); //calcular Magnitud de FuerzaE
 
 	//this.masa = masaN + masaC;
 
@@ -51,6 +54,7 @@ var Modulo = function(masaN, fuerzaE, vel, masaC, consumo, pos){
 	//Para calcular la fuerza es F = Fempuje (vector) + Fgravedad (vector)
 	//Se debe calcular la Fgravedad Fg = (M1(MasaTierra) * M2 (MasaModulo) * g (gravedad) / r^2 (distancia del modulo a la tierra)
 	//hay que sumar los vectores
+	
 	this.calcularFuerza = function() {
 		var fuerza  =  new THREE.Vector3();
 
@@ -60,7 +64,7 @@ var Modulo = function(masaN, fuerzaE, vel, masaC, consumo, pos){
 		 vectorUnitario.normalize();
 		//calcula la Fuerza Gravedad
 
-		var Fg = -( MASATIERRA * this.calcularMasa() * KGRAVEDAD ) /(this.calcularDistancia());
+		Fg = -( MASATIERRA * this.calcularMasa() * KGRAVEDAD ) /(this.calcularDistancia());
 
 		//Falta pasar el Fg a vector 
 		fuerza = vectorUnitario.multiplyScalar(-Fg);
@@ -69,9 +73,9 @@ var Modulo = function(masaN, fuerzaE, vel, masaC, consumo, pos){
 
 	this.calcularAceleracion = function(){
 		var aceleracion = new THREE.Vector3();
-		var masa = this.calcularMasa();
-		var calcularFuerza = this.calcularFuerza().clone();
-		aceleracion = calcularFuerza.divideScalar(masa);
+		var masa = this.masaCombustible + this.masaNeta;
+		var Fuerza = this.calcularFuerza().clone();
+		aceleracion = Fuerza.divideScalar(masa);
 		/*aceleracion = this.calcularFuerza().divideScalar(masa);*/
 		//console.log("aceleracion: x:" + aceleracion.x + " y:" + aceleracion.y + " z:" + aceleracion.z );
 		return aceleracion;
@@ -93,19 +97,36 @@ var Modulo = function(masaN, fuerzaE, vel, masaC, consumo, pos){
 
 	//calcula el desplazamiento, la nueva posición y la velocidad final.
 	//Este método es llamado desde el objeto. 
+	this.nuevaDir = new THREE.Vector3(0,0,0);
 	this.calcularPosicion = function() {
-		
 		var desplazamiento = new THREE.Vector3();
 		desplazamiento = this.calcularDesplazamiento();
+
 		this.posicionModulo.add(desplazamiento);
 		this.velocidad = desplazamiento.divideScalar(DELTAT);
 		//console.log("salio CalPos: " + this.posicionModulo.x  + " | " + this.posicionModulo.y + " | " + this.posicionModulo.z);
 		
-		//console.log(this.posicionModulo);
-		//console.log("VELOCIDAD: " + this.velocidad.y);
-		//console.log(this.posicionModulo);
-		//console.log(this.posicionModulo.ceil())
-		return this.posicionModulo.ceil();
+		//Modificar Direccion De La Fuerza de empuje
+		var vDirDesplaz = desplazamiento.clone().normalize();
+		this.fuerzaEmpuje = vDirDesplaz.multiplyScalar(this.magnitudFe);
+
+
+		return this.posicionModulo.ceil();//ceil utilizado para redondear los valores de los componentes del vector 
+	}
+
+	this.calcularNuevaDireccion = function(){
+	var nuevaDireccion = new THREE.Vector3(0,0,0); 
+	var vRTierra = new THREE.Vector3(0,0,0); //Radio Tierra
+	var vFg = new THREE.Vector3(0,0,0); //Fuerza de gravedad
+	var vFr = new THREE.Vector3(0,0,0);	//Fuerza Resultante
+
+	//PASO1 
+	//Calcular nueva direccion
+	nuevaDireccion.addVectors(this.calcularPosicion(),vRTierra.setY(RTIERRA));
+	nuevaDireccion.normalize();	
+	vFg = nuevaDireccion.clone().multiplyScalar(Fg);
+	vFr.addVectors(this.fuerzaEmpuje,vFg);
+	return vFr;
 	}
 
 }

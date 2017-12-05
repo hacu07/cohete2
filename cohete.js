@@ -237,7 +237,7 @@ function crearMundo(){
  var rotInicial;
 function crearCabina(){
 	interiorCabina = new Cabina("img/cabinaMod.png", 20, 1, 32, 32);
-	rotInicial = -Math.PI/3;
+	rotInicial = -Math.PI/3.85;
 	interiorCabina.mesh.rotation.x = rotInicial;
 	escena.add(interiorCabina.mesh);
 
@@ -249,15 +249,16 @@ function crearCabina(){
 /******************************************************************
  construye todos los objetos en el mundo 
  ******************************************************************/
+ var cylinder = null;
 function crearCohete(){
-	fuerzaE = new THREE.Vector3(0,3456441,0);
+	fuerzaE = new THREE.Vector3(10000,3456441,0);
 	vel = new THREE.Vector3(0,0,0);
 	pos = new THREE.Vector3(0,24,0);	
 	cohete = new Modulo(821336,fuerzaE,vel,2282033,500000,pos); 
 	cohete.cuerpo = new SaturnoV();
-	cohete.cuerpo.mesh.position.set(0,0,0);	
+	cohete.cuerpo.mesh.rotateX(Math.PI / 2);
+	cohete.cuerpo.mesh.up.set(0, 1, 0);
 	escena.add(cohete.cuerpo.mesh);
-
 	torre = new Plataforma();
 	torre.mesh.rotation.y = -3.1416/2;
 	escena.add(torre.mesh);
@@ -270,38 +271,55 @@ function crearCohete(){
 	particulas.mesh.position.set(0,-500,0);
 	cohete.cuerpo.mesh.add(particulas.mesh);
 
+	     var material = new THREE.MeshPhongMaterial({
+            color: 0xfb3550,
+            shading: THREE.FlatShading
+        });
+        // Dome
+        geometry = new THREE.IcosahedronGeometry(700, 1);
+        var domeMaterial = new THREE.MeshPhongMaterial({
+            color: 0xfb3550,
+            shading: THREE.FlatShading,
+            side: THREE.BackSide
+        });
+        
+
+        //cone
+        var geometry = new THREE.CylinderGeometry(0, 50, 160, 8);
+        geometry.rotateX(Math.PI / 2);
+        cylinder = new THREE.Mesh(geometry, material.clone());
+        cylinder.position.set(0, 70,50);
+        cylinder.up.set(0, 0, 1);
+        escena.add(cylinder);
+
+        
+
+
 }
 
 
 /******************************************************************
   
  ******************************************************************/
-
  //Angulo 
 var B,a,b,c;
+/*var quaternion = new THREE.Quaternion();*/
 
-var quaternion = new THREE.Quaternion();
-var vCam = new THREE.Vector3(0,0,0);
-var vCab = new THREE.Vector3(0,0,0);
 function calcularEstado(deltaEstado){
-	//Asignar valores para calcular el angulo segunlaley de coseno
-	
-
-	var distCamNorm=null;
-	var posCamNorm=null; 
 	posicionCohete = new THREE.Vector3(0,0,0);
 	posicionCohete.copy(cohete.calcularPosicion());
+
 	cohete.cuerpo.mesh.position.copy(posicionCohete);
-	//posicionCamara.addVectors(posicionCohete,distanciaCamara);
 	posicionCamara.addVectors(posicionCohete,distanciaCamara);
-	//posicionCabina.copy(posicionCamara);
-	
-	//console.log(posicionCamara);
+
+
+	cohete.cuerpo.mesh.lookAt(cohete.fuerzaEmpuje);
+	//dibujarLinea(cohete.calcularNuevaDireccion());
+	cylinder.lookAt(cohete.calcularNuevaDireccion());
+	cylinder.position.copy(posicionCohete);
+
 	if (deltaEstado == 1 || deltaEstado == 5 ) {
-		//console.log("entra general 1");
-		if (posicionCohete.y >= 5000) {
-			//console.log("entra 1 if= " + deltaEstado);
-			
+		if (posicionCohete.y >= 5000) {			
 			//camara.position.y += ((cohete.cuerpo.mesh.position.y - camara.position.y ) * 0.04 )+ cohete.velocidad.y;
 			distanciaCamara.x = 0;
 			distanciaCamara.y =	0;
@@ -311,27 +329,29 @@ function calcularEstado(deltaEstado){
 
 			posicionCabina.z = 800;
 			camara.position.copy(posicionCamara);
-			interiorCabina.mesh.position.copy(posicionCabina);
-			interiorCabina.mesh.rotation.x = -Math.PI/10;
-			interiorCabina.mesh.rotation.y = Math.PI/30;
+			/*interiorCabina.mesh.position.copy(posicionCabina);
+			interiorCabina.mesh.rotation.x = -Math.PI/9;
+			interiorCabina.mesh.rotation.y = Math.PI/30;*/
 			//exteriorCabina.mesh.position.copy(posicionCamara);
 			camara.lookAt(posicionCohete);
 			deltaEstado = 2;
 			//console.log("sale = " + deltaEstado);
+			camara.lookAt(posicionCohete);
 		}
 		else
 		{
-			posicionCabina.copy(distanciaCamara);
-			a = posicionCabina.distanceTo(posicionCohete);
+			/*posicionCabina.copy(distanciaCamara);
+			a = posicionCabina.distanceTo(posicionCohete);+
 			b = posicionCohete.distanceTo(new THREE.Vector3(0,0,0));
 			c = posicionCabina.distanceTo(new THREE.Vector3(0,0,0));
 			B = ( Math.pow(b,2) - Math.pow(a,2) - Math.pow(c,2)) /( -2 * a * c  );
 			//console.log("valor B : "+ B);
-			B = Math.acos(B);
+			B = Math.acos(B);*/
 			//console.log(B);
-			interiorCabina.mesh.rotation.x = rotInicial + B;
+			/*interiorCabina.mesh.rotation.x = rotInicial + B;
 			interiorCabina.mesh.position.copy(posicionCabina);
-			interiorCabina.mesh.rotation.y = Math.PI/30;
+			interiorCabina.mesh.rotation.y = Math.PI/30;*/
+
 			camara.lookAt(posicionCohete);
 			deltaEstado = 2;
 		}
@@ -342,12 +362,12 @@ function calcularEstado(deltaEstado){
 		distanciaCamara.y = 2500; 
 		
 		camara.position.copy(posicionCamara);
-		interiorCabina.mesh.position.copy(posicionCamara);
+		/*interiorCabina.mesh.position.copy(posicionCamara);
 		interiorCabina.mesh.rotation.y = Math.PI/30;
-		interiorCabina.mesh.rotation.x = -Math.PI/1.9;
-		interiorCabina.mesh.rotation.z = Math.PI/30;
+		interiorCabina.mesh.rotation.x = -Math.PI/1.94;
+		interiorCabina.mesh.rotation.z = Math.PI/25;*/
 		//exteriorCabina.mesh.position.copy(posicionCamara);
-		camara.lookAt(posicionCohete);
+		//camara.lookAt(posicionCohete);
 		deltaEstado = 3;
 		//console.log("sale =" + deltaEstado);
 	}
@@ -356,11 +376,11 @@ function calcularEstado(deltaEstado){
 
 		distanciaCamara.z = 8000;
 		camara.position.copy(posicionCamara);
-		interiorCabina.mesh.position.copy(posicionCamara);
+	/*	interiorCabina.mesh.position.copy(posicionCamara);
 		interiorCabina.mesh.position.z = 7998;
 		interiorCabina.mesh.rotation.y = Math.PI/30;
-		interiorCabina.mesh.rotation.x = -Math.PI/4;
-		interiorCabina.mesh.rotation.z = 0;
+		interiorCabina.mesh.rotation.x = -Math.PI/4.5;
+		interiorCabina.mesh.rotation.z = 0;*/
 		//exteriorCabina.mesh.position.copy(posicionCamara);
 		camara.lookAt(posicionCohete);
 		deltaEstado = 4;	
@@ -377,17 +397,39 @@ function calcularEstado(deltaEstado){
 
 		camara.lookAt(vistaCamara);
 		//interiorCabina.mesh.position.copy(camara.position);
-		interiorCabina.mesh.position.x = camara.position.x;
+/*		interiorCabina.mesh.position.x = camara.position.x;
 		interiorCabina.mesh.position.y = camara.position.y ;
 		interiorCabina.mesh.position.z = camara.position.z;
-		interiorCabina.mesh.rotation.x = Math.PI/3;
+		interiorCabina.mesh.rotation.x = Math.PI/2.7;*/
 		deltaEstado = 1;	
 		//console.log("sale " + deltaEstado);	
 	}
-	
+	//cohete.cuerpo.mesh.lookAt(nuevaDireccion);
+}	
+
+
+
+function dibujarLinea(nuevaDireccion){
+	Geometria=new THREE.Geometry();
+	// vector a dibujar
+	var vertices=[[0,0,0],[nuevaDireccion.x,nuevaDireccion.y,nuevaDireccion.z]];
+	var long_vertices=vertices.length;
+	for(i=0;i<long_vertices;i++){
+	    x=vertices[i][0];
+	    y=vertices[i][1];
+	    z=vertices[i][2];
+	    //Agregamos vértices al vector
+	    Vector=new THREE.Vector3(x,y,z);
+	    //Agregamos el vector a la geometría
+	    Geometria.vertices.push(Vector);   
+	    }
+	// agregamos un material para que el punto tenga color
+	Material=new THREE.PointsMaterial({color:0XFF0000});
+	// creamos una partícula con la geometría y el material
+	Figura=new THREE.Line(Geometria,Material);
+	// agregamos la partícula al escenario
+	escena.add(Figura);
 }
-
-
 /******************************************************************
   
  ******************************************************************/

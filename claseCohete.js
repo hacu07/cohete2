@@ -39,6 +39,7 @@
 	torre = new	TorreEscape();
 	torre.mesh.position.y = 326.5;	
  	this.mesh.add(torre.mesh);
+ 	
  }
 
 /******************************************************************
